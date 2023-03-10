@@ -1,5 +1,6 @@
-const authService = require("../services/authService");
-const { authMiddleware, sessionValidation } = require("../middleware/auth");
+const authService = require("../services/authServices");
+const userModel = require("../models/user");
+const { isValidPassword } = require("../utils/index");
 
 //LOGIN:
 const loginView = async (req, res) => {
@@ -12,9 +13,11 @@ const loginView = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    let foundUser = await authService.loginUser(req.body);
-    if (!foundUser) {
-      res.status(401).send({ error: "User not found" });
+    let user = req.body;
+    let foundUser = await userModel.findOne({ email: user.email });
+
+    if (!foundUser || !isValidPassword(foundUser, user.password)) {
+      res.send("login error. Usuario no existe o contraseña incorrecta.");
     }
 
     req.session.user = {

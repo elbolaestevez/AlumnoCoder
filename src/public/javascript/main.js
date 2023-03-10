@@ -7,6 +7,12 @@ let chatBox = document.getElementById("chatBox");
 
 // console.log("messages", messages);
 
+let logOut = document.getElementById("logout");
+
+logOut.addEventListener("click", () => {
+  console.log("SESSION", session);
+});
+
 //
 Swal.fire({
   title: "Identificate",
@@ -131,8 +137,14 @@ function obtenerProductos(pagina = 1) {
 obtenerProductos();
 
 const formularioDeProductos = document.getElementById("formProducts");
-const { title, price, stock, code, thumbnail, description } =
-  formularioDeProductos;
+const {
+  title,
+  price,
+  stock,
+  code,
+  thumbnail,
+  description,
+} = formularioDeProductos;
 formularioDeProductos.addEventListener("submit", (e) => {
   e.preventDefault();
   fetch("http://localhost:8080/api/products", {
@@ -157,6 +169,7 @@ verCarritoBtn.addEventListener("click", () => {
   const carritoId = document.getElementById("carritoId").value;
   CarritoData(carritoId);
 });
+
 function CarritoData(carritoid) {
   console.log("carritoid", carritoid);
   fetch(`http://localhost:8080/api/carts/${carritoid}`)
