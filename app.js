@@ -8,6 +8,13 @@ const events = require("./socketEvents");
 const { Server } = require("socket.io");
 const express = require("express");
 const app = express();
+const port = 8080;
+const routerProducts = require("./src/router/products");
+const routerCart = require("./src/router/carrito");
+const authRouter = require("./src/router/auth");
+const MongoStore = require("connect-mongo");
+const session = require("express-session");
+
 app.use(
   express.urlencoded({
     extended: true,
@@ -15,12 +22,10 @@ app.use(
 );
 app.use(express.static("./src/public"));
 app.use(express.json());
-const port = 8080;
-const routerProducts = require("./src/router/products");
-const routerCart = require("./src/router/carrito");
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCart);
 app.use("/api/messages", chatRouter);
+app.use("/auth", authRouter);
 
 const httpServer = app.listen(port, () =>
   console.log("Server running on port 8080")
@@ -79,5 +84,22 @@ socketServer.on("connection", (socket) => {
     socketServer.sockets.emit(events.UPDATE_PRODUCT, productos.products);
   });
 });
+
+// Cookies & Local Storage:
+const mongoStore = MongoStore.create({
+  mongoUrl:
+    "mongodb+srv://gonzalobruno997:1234@cluster0.zjno9zw.mongodb.net/Ecommerce?retryWrites=true&w=majority",
+  mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+  ttl: 150,
+});
+
+app.use(
+  session({
+    store: mongoStore,
+    secret: "esteeselsecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.on("ERROR", (error) => console.log("error " + error));
