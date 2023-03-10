@@ -1,21 +1,6 @@
 const userModel = require("../models/user");
 const { createHash } = require("../utils/index");
 
-//LOGIN:
-const loginView = async () => {
-  res.render("login", {});
-};
-
-// const loginUser = async (req) => {
-//   let user = req;
-//   let userFound = await userModel.findOne({ email: user.email });
-
-//   if(!userFound || isValidPassword(userFound, user.password)){
-//     res.send("login error. Usuario no existe o contraseña incorrecta.")
-//   }
-//   return userFound;
-// };
-
 // REGISTER:
 const createUser = async (req) => {
   const { first_name, last_name, age, email, password } = req;
@@ -39,8 +24,4 @@ const createUser = async (req) => {
   }
 };
 
-const registerView = async () => {
-  res.render("register", {});
-};
-
-module.exports = { createUser, registerView, loginView };
+module.exports = { createUser };

@@ -1,11 +1,12 @@
 const authService = require("../services/authServices");
 const userModel = require("../models/user");
 const { isValidPassword } = require("../utils/index");
+const { createHash } = require("../utils/index");
 
 //LOGIN:
 const loginView = async (req, res) => {
   try {
-    await authService.loginView();
+    res.render("login");
   } catch (error) {
     res.send(error.message);
   }
@@ -45,7 +46,7 @@ const logOutUser = async (req, res) => {
 //REGISTER:
 const registerView = async (req, res) => {
   try {
-    await authService.registerView();
+    res.render("register");
   } catch (error) {
     res.send(error.message);
   }
@@ -61,10 +62,37 @@ const registerUser = async (req, res) => {
   }
 };
 
+//RESTORE PASSWORD:
+const restorePasswordView = async (req, res) => {
+  res.render("restore-password");
+};
+
+const restorePassword = async (req, res) => {
+  try {
+    let user = req.body;
+    let foundUser = await userModel.findOne({ email: user.email });
+
+    if (!foundUser) {
+      res.render("register");
+    } else {
+      let newPassword = createHash(user.password);
+      let result = await userModel.updateOne(
+        { email: user.email },
+        { $set: { password: newPassword } }
+      );
+      res.render("login");
+    }
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
 module.exports = {
   loginView,
   loginUser,
   registerView,
   registerUser,
   logOutUser,
+  restorePasswordView,
+  restorePassword,
 };
