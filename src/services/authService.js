@@ -5,22 +5,22 @@ const loginView = async () => {
   res.render("login", {});
 };
 
-const loginUser = async () => {
-  res.send("post login ok");
+const loginUser = async (req) => {
+  let user = req;
+  let userFound = await userModel.findOne({ email: user.email });
+
+  return userFound;
 };
 
 // REGISTER:
-const createUser = async () => {
-  let user = await userModel.findOne({ email: require.body.email });
+const createUser = async (req) => {
+  let user = await userModel.findOne({ email: req.email });
 
   if (user) {
-    return alert("usuario ya registrado");
+    return "usuario ya registrado";
   }
 
-  let response = await userModel.insertOne(req.body);
-
-  req.session.user = { name: req.body.nombre, email: req.body.email };
-  response.render("login", { message: "Registro exitoso", status: success });
+  let response = await userModel.create(req);
 };
 
 const registerView = async () => {

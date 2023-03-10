@@ -1,4 +1,5 @@
 const ProductManager = require("./productManager");
+const session = require("express-session");
 const chatRouter = require("./src/router/msgRoutes");
 const mongoose = require("mongoose");
 const productos = new ProductManager("./src/db/productos.json");
@@ -13,7 +14,6 @@ const routerProducts = require("./src/router/products");
 const routerCart = require("./src/router/carrito");
 const authRouter = require("./src/router/auth");
 const MongoStore = require("connect-mongo");
-const session = require("express-session");
 
 app.use(
   express.urlencoded({
@@ -25,7 +25,6 @@ app.use(express.json());
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCart);
 app.use("/api/messages", chatRouter);
-app.use("/auth", authRouter);
 
 const httpServer = app.listen(port, () =>
   console.log("Server running on port 8080")
@@ -85,7 +84,7 @@ socketServer.on("connection", (socket) => {
   });
 });
 
-// Cookies & Local Storage:
+// Cookies:
 const mongoStore = MongoStore.create({
   mongoUrl:
     "mongodb+srv://gonzalobruno997:1234@cluster0.zjno9zw.mongodb.net/Ecommerce?retryWrites=true&w=majority",
@@ -101,5 +100,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use("/auth", authRouter);
 
 app.on("ERROR", (error) => console.log("error " + error));
