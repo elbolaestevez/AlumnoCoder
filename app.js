@@ -63,6 +63,12 @@ app.get("/", (req, res) => {
 app.get("/realtimeproducts", (req, res) => {
   res.render("realtimeProducts");
 });
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/register", (req, res) => {
+  res.render("register");
+});
 
 socketServer.on("connection", (socket) => {
   socketServer.sockets.emit(events.INIT, productos.products);
