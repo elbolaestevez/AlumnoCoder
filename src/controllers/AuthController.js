@@ -12,6 +12,7 @@ const loginView = async (req, res) => {
   }
 };
 
+//La contraseña se hashea automaticamente, por lo que se ha creado en la base de datos un usuario con los datos de admin propuestos.
 const loginUser = async (req, res) => {
   try {
     let user = req.body;
