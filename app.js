@@ -61,9 +61,7 @@ const hbs = handlebars.create({
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", "./src/public/viewsHandlebars");
-app.get("/", (req, res) => {
-  res.render("home");
-});
+
 app.get("/realtimeproducts", (req, res) => {
   res.render("realtimeProducts");
 });
@@ -101,6 +99,17 @@ app.use(
   })
 );
 
+//SESSION DATA:
+
 app.use("/auth", authRouter);
+
+app.get("/", (req, res) => {
+  req.session.user
+    ? res.render("home", {
+        userName: req.session.user.name,
+        role: req.session.user.role,
+      })
+    : res.render("home", {});
+});
 
 app.on("ERROR", (error) => console.log("error " + error));

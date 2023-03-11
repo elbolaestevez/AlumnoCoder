@@ -21,12 +21,21 @@ const loginUser = async (req, res) => {
       res.send("login error. Usuario no existe o contraseña incorrecta.");
     }
 
-    req.session.user = {
-      name: foundUser.first_name,
-      email: foundUser.email,
-    };
-    res.redirect("/");
-    // res.status(200).send({ user: req.session.user });
+    if (foundUser.email === "adminCoder@coder.com") {
+      req.session.user = {
+        name: foundUser.first_name,
+        email: foundUser.email,
+        role: "Admin",
+      };
+      res.redirect("/");
+    } else {
+      req.session.user = {
+        name: foundUser.first_name,
+        email: foundUser.email,
+        role: "Usuario",
+      };
+      res.redirect("/");
+    }
   } catch (error) {
     res.send(error.message);
   }

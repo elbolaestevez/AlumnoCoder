@@ -1,5 +1,31 @@
-<button id="logout" type="button" onclick="location.href='/auth/logout'">Log out</button>
+<head>
+  <style>
+    .centered-red-background {
+      background-color: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      margin-top: 4px;
+    }
+
+    .centered-red-background h1 {
+      color: white;
+      text-align: center;
+    }
+  </style>
+</head>
 <section>
+  {{#if userName}}
+    <button id="logout" type="button" onclick="location.href='/auth/logout'">Log out</button>
+    <div class="centered-red-background">
+      <h1>{{role}}</h1>
+    </div>
+    <p>Bienvenido, {{userName}}!</p>
+    {{else}}
+    <button id="login" type="button" onclick="location.href='/auth/login'">Log in</button>
+  {{/if}}
+
   <h2>registre su producto</h2>
   <form id="formProducts">
     <div>

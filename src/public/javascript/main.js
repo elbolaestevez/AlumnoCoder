@@ -1,37 +1,33 @@
 const contenedor = document.getElementById("contenedorProductos");
 const contenedorUpdateProducts = document.getElementById("updateProducts");
-
+const express = require("express");
+const app = express();
 const socket = io();
 let user;
 let chatBox = document.getElementById("chatBox");
 
 // console.log("messages", messages);
 
-let logOut = document.getElementById("logout");
-
-logOut.addEventListener("click", () => {
-  console.log("SESSION", session);
-});
+// Swal.fire({
+//   title: "Identificate",
+//   input: "text",
+//   text: "Ingresa un nombre",
+//   inputValidator: (value) => {
+//     return !value && "Se necesita un nombre!";
+//   },
+//   allowOutsideClick: false,
+// })
+//   .then((result) => {
+//     user = result.value;
+//     return user;
+//   })
+//   .then((user) =>
+//     socket.emit("newUserLoged", {
+//       user,
+//     })
+//   );
 
 //
-Swal.fire({
-  title: "Identificate",
-  input: "text",
-  text: "Ingresa un nombre",
-  inputValidator: (value) => {
-    return !value && "Se necesita un nombre!";
-  },
-  allowOutsideClick: false,
-})
-  .then((result) => {
-    user = result.value;
-    return user;
-  })
-  .then((user) =>
-    socket.emit("newUserLoged", {
-      user,
-    })
-  );
 ///;
 chatBox.addEventListener("keyup", (evt) => {
   if (evt.key === "Enter") {
