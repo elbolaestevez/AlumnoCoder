@@ -1,13 +1,13 @@
 const contenedor = document.getElementById("contenedorProductos");
 const contenedorUpdateProducts = document.getElementById("updateProducts");
-const express = require("express");
-const app = express();
+
 const socket = io();
 let user;
 let chatBox = document.getElementById("chatBox");
 
 // console.log("messages", messages);
 
+//
 // Swal.fire({
 //   title: "Identificate",
 //   input: "text",
@@ -26,8 +26,6 @@ let chatBox = document.getElementById("chatBox");
 //       user,
 //     })
 //   );
-
-//
 ///;
 chatBox.addEventListener("keyup", (evt) => {
   if (evt.key === "Enter") {
@@ -165,7 +163,6 @@ verCarritoBtn.addEventListener("click", () => {
   const carritoId = document.getElementById("carritoId").value;
   CarritoData(carritoId);
 });
-
 function CarritoData(carritoid) {
   console.log("carritoid", carritoid);
   fetch(`http://localhost:8080/api/carts/${carritoid}`)

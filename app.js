@@ -8,14 +8,12 @@ const bodyParser = require("body-parser");
 const events = require("./socketEvents");
 const { Server } = require("socket.io");
 const express = require("express");
-const app = express();
-const port = 8080;
-const routerProducts = require("./src/router/products");
-const routerCart = require("./src/router/carrito");
 const authRouter = require("./src/router/auth");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const { initializePassport } = require("./src/config/passport.config");
+const app = express();
+const port = 8080;
 
 app.use(
   express.urlencoded({
@@ -24,6 +22,8 @@ app.use(
 );
 app.use(express.static("./src/public"));
 app.use(express.json());
+const routerProducts = require("./src/router/products");
+const routerCart = require("./src/router/carrito");
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCart);
 app.use("/api/messages", chatRouter);
@@ -31,6 +31,7 @@ app.use("/api/messages", chatRouter);
 const httpServer = app.listen(port, () =>
   console.log("Server running on port 8080")
 );
+
 /* websocket config */
 const { Server: SocketServer } = require("socket.io");
 const { Server: HttpServer } = require("http");
@@ -54,19 +55,21 @@ io.on("connection", (socket) => {
     io.sockets.emit("messages", messagesList);
   });
 });
+
 const hbs = handlebars.create({
   extname: ".hbs",
   defaultLayout: "index.hbs",
   layoutsDir: __dirname + "/src/public/viewsHandlebars/layouts",
   partialsDir: __dirname + "/src/public/viewsHandlebars/partials",
 });
+
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", "./src/public/viewsHandlebars");
-
 app.get("/realtimeproducts", (req, res) => {
   res.render("realtimeProducts");
 });
+
 app.get("/login", (req, res) => {
   res.render("login");
 });
