@@ -3,6 +3,7 @@ const local = require("passport-local");
 const GitHubStrategy = require("passport-github2");
 const userService = require("../models/user");
 const { createHash, isValidPassword } = require("../utils/index");
+require("dotenv").config();
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
@@ -40,9 +41,9 @@ const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.c6d8477fa9174b50",
-        clientSecret: "7b237eaf54138be58d2a0285723838c833c3d1a4",
-        callbackURL: "http://localhost:8080/auth/githubcallback",
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_SECRET,
+        callbackURL: process.env.GITHUB_CALLBACK_URL,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
