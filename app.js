@@ -14,6 +14,8 @@ const routerProducts = require("./src/router/products");
 const routerCart = require("./src/router/carrito");
 const authRouter = require("./src/router/auth");
 const MongoStore = require("connect-mongo");
+const passport = require("passport");
+const { initializePassport } = require("./src/config/passport.config");
 
 app.use(
   express.urlencoded({
@@ -98,6 +100,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //SESSION DATA:
 
