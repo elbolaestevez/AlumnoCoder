@@ -1,11 +1,12 @@
 const passport = require("passport");
 const local = require("passport-local");
+const GitHubStrategy = require("passport-github2");
 const userService = require("../models/user");
 const { createHash, isValidPassword } = require("../utils/index");
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
-  //Logica de registro con passport
+  //Logica de registro con passport:
   passport.use(
     "register",
     new LocalStrategy(
@@ -16,7 +17,7 @@ const initializePassport = () => {
           let user = await userService.findOne({ email: username });
           if (user) {
             console.log("Usuario ya existe");
-            return done(ull, flase);
+            return done(null, false);
           }
           const newUser = {
             first_name,
@@ -29,6 +30,41 @@ const initializePassport = () => {
           return done(null, result);
         } catch (error) {
           return done("Error al obtener el usuario: " + error);
+        }
+      }
+    )
+  );
+
+  //Logica para registrarse con GitHub:
+  passport.use(
+    "github",
+    new GitHubStrategy(
+      {
+        clientID: "Iv1.c6d8477fa9174b50",
+        clientSecret: "7b237eaf54138be58d2a0285723838c833c3d1a4",
+        callbackURL: "http://localhost:8080/auth/githubcallback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          console.log(profile);
+          let user = await userService.findOne({ email: profile._json.email });
+          if (!user) {
+            console.log("PROFILE GIT:", profile._json);
+
+            let newUser = {
+              first_name: profile._json.name,
+              last_name: "",
+              age: 0,
+              email: profile._json.email,
+              password: "",
+            };
+            let result = await userService.create(newUser);
+            done(null, result);
+          } else {
+            done(null, user);
+          }
+        } catch (error) {
+          return done(error);
         }
       }
     )
@@ -49,7 +85,6 @@ const initializePassport = () => {
           }
           if (!isValidPassword(user, password)) return done(null, false);
 
-          
           return done(null, user);
         } catch (error) {
           return done(error);
