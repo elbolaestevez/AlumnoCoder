@@ -13,34 +13,36 @@ const loginView = async (req, res) => {
 };
 
 //La contraseña se hashea automaticamente, por lo que se ha creado en la base de datos un usuario con los datos de admin propuestos.
-const loginUser = async (req, res) => {
-  try {
-    let user = req.body;
-    let foundUser = await userModel.findOne({ email: user.email });
 
-    if (!foundUser || !isValidPassword(foundUser, user.password)) {
-      res.send("login error. Usuario no existe o contraseña incorrecta.");
-    }
+//AHORA SE RESUELVE CON PASSPORT EN ROUTER:
+// const loginUser = async (req, res) => {
+//   try {
+//     let user = req.body;
+//     let foundUser = await userModel.findOne({ email: user.email });
 
-    if (foundUser.email === "adminCoder@coder.com") {
-      req.session.user = {
-        name: foundUser.first_name,
-        email: foundUser.email,
-        role: "Admin",
-      };
-      res.redirect("/");
-    } else {
-      req.session.user = {
-        name: foundUser.first_name,
-        email: foundUser.email,
-        role: "Usuario",
-      };
-      res.redirect("/");
-    }
-  } catch (error) {
-    res.send(error.message);
-  }
-};
+//     if (!foundUser || !isValidPassword(foundUser, user.password)) {
+//       res.send("login error. Usuario no existe o contraseña incorrecta.");
+//     }
+
+//     if (foundUser.email === "adminCoder@coder.com") {
+//       req.session.user = {
+//         name: foundUser.first_name,
+//         email: foundUser.email,
+//         role: "Admin",
+//       };
+//       res.redirect("/");
+//     } else {
+//       req.session.user = {
+//         name: foundUser.first_name,
+//         email: foundUser.email,
+//         role: "Usuario",
+//       };
+//       res.redirect("/");
+//     }
+//   } catch (error) {
+//     res.send(error.message);
+//   }
+// };
 
 //LOGOUT:
 const logOutUser = async (req, res) => {
@@ -62,15 +64,16 @@ const registerView = async (req, res) => {
   }
 };
 
-const registerUser = async (req, res) => {
-  try {
-    const user = await authService.createUser(req.body);
-    res.redirect(302, "/login");
-    res.send(user);
-  } catch (error) {
-    res.send(error.message);
-  }
-};
+// AHORA SE REGISTRA CON PASSPORT EN ROUTER:
+// const registerUser = async (req, res) => {
+//   try {
+//     const user = await authService.createUser(req.body);
+//     res.redirect(302, "/login");
+//     res.send(user);
+//   } catch (error) {
+//     res.send(error.message);
+//   }
+// };
 
 //RESTORE PASSWORD:
 const restorePasswordView = async (req, res) => {
@@ -99,9 +102,7 @@ const restorePassword = async (req, res) => {
 
 module.exports = {
   loginView,
-  loginUser,
   registerView,
-  registerUser,
   logOutUser,
   restorePasswordView,
   restorePassword,
