@@ -5,6 +5,7 @@ const { createHash, isValidPassword } = require("../utils/index");
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
+  //Logica de registro con passport
   passport.use(
     "register",
     new LocalStrategy(
@@ -28,6 +29,30 @@ const initializePassport = () => {
           return done(null, result);
         } catch (error) {
           return done("Error al obtener el usuario: " + error);
+        }
+      }
+    )
+  );
+
+  //Logica de login con passport:
+  passport.use(
+    "login",
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (username, password, done) => {
+        try {
+          const user = await userService.findOne({ email: username });
+          //   console.log("USERNAME DEL PASSSPORT.CONFIG:", user);
+          if (!user) {
+            console.log("Usuario no existe");
+            return done(null, false);
+          }
+          if (!isValidPassword(user, password)) return done(null, false);
+
+          
+          return done(null, user);
+        } catch (error) {
+          return done(error);
         }
       }
     )

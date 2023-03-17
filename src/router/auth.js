@@ -6,7 +6,32 @@ const { authMiddleware, sessionValidation } = require("../middleware/auth");
 
 authRouter.get("/login", authController.loginView);
 
-authRouter.post("/login", sessionValidation, authController.loginUser);
+// authRouter.post("/login", sessionValidation, authController.loginUser);
+
+authRouter.post("/login", passport.authenticate("login"), async (req, res) => {
+  if (!req.user)
+    return res
+      .status(400)
+      .send({ status: "error", error: "Credenciales invalidas" });
+
+  if (req.user.email === "adminCoder@coder.com") {
+    req.session.user = {
+      name: req.user.first_name,
+      email: req.user.email,
+      role: "Admin",
+    };
+    res.redirect("/");
+  } else {
+    req.session.user = {
+      name: req.user.first_name,
+      email: req.user.email,
+      role: "Usuario",
+    };
+    res.redirect("/");
+  }
+
+  // res.send({ status: "success", payload: req.user });
+});
 
 authRouter.get("/register", authController.registerView);
 
