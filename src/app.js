@@ -1,17 +1,17 @@
-const ProductManager = require("./src/productManager");
+const ProductManager = require("./productManager");
 const session = require("express-session");
-const chatRouter = require("./src/router/msgRoutes");
+const chatRouter = require("./router/msgRoutes");
 const mongoose = require("mongoose");
 const productos = new ProductManager("./src/db/productos.json");
 const messagesList = [];
 const bodyParser = require("body-parser");
-const events = require("./src/socketEvents");
+const events = require("./socketEvents");
 const { Server } = require("socket.io");
 const express = require("express");
-const authRouter = require("./src/router/auth");
+const authRouter = require("./router/auth");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
-const { initializePassport } = require("./src/config/passport.config");
+const { initializePassport } = require("./config/passport.config");
 const app = express();
 const port = 8080;
 
@@ -22,8 +22,8 @@ app.use(
 );
 app.use(express.static("./src/public"));
 app.use(express.json());
-const routerProducts = require("./src/router/products");
-const routerCart = require("./src/router/carrito");
+const routerProducts = require("./router/products");
+const routerCart = require("./router/carrito");
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCart);
 app.use("/api/messages", chatRouter);
@@ -59,8 +59,8 @@ io.on("connection", (socket) => {
 const hbs = handlebars.create({
   extname: ".hbs",
   defaultLayout: "index.hbs",
-  layoutsDir: __dirname + "/src/public/viewsHandlebars/layouts",
-  partialsDir: __dirname + "/src/public/viewsHandlebars/partials",
+  layoutsDir: __dirname + "/public/viewsHandlebars/layouts",
+  partialsDir: __dirname + "/public/viewsHandlebars/partials",
 });
 
 app.engine("hbs", hbs.engine);
