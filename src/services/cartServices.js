@@ -10,7 +10,6 @@ const getcartsAll = async () => {
   return carts;
 };
 const getcarts = async (cid) => {
-  console.log("cid2", cid);
   if (cid) {
     const cartid = await CartsModel.findById(cid).populate({
       path: "products.idproducto",
@@ -39,13 +38,13 @@ const postcarrito = async (products, idproducto) => {
 
 const postcarritoid = async (cid, pid, quantity) => {
   const cartid = await CartsModel.findById(cid);
-  console.log("cid", cid, "pid", pid, "quantuty", quantity);
+  // console.log("cid", cid, "pid", pid, "quantuty", quantity);
   try {
     for (let i = 0; i < cartid.products.length; i++) {
-      console.log(i);
+      // console.log(i);
       if (cartid.products[i].idproducto == pid) {
         cartid.products[i].quantity = cartid.products[i].quantity + quantity;
-        console.log("cartid", cartid.products[i].quantity);
+        // console.log("cartid", cartid.products[i].quantity);
         cartid.save();
         return cartid;
       }
@@ -62,7 +61,7 @@ const postcarritoid = async (cid, pid, quantity) => {
 };
 
 const editcarrito = async (products, cid) => {
-  console.log("products", products);
+  // console.log("products", products);
   try {
     let carritoupdate = await CartsModel.findOneAndUpdate(
       cid,
@@ -111,7 +110,7 @@ const deletecartById = async (pid) => {
 
 const deleteProductInCarrito = async (cid, pid) => {
   const cartid = await CartsModel.findById(cid);
-  console.log("pid", pid);
+  // console.log("pid", pid);
 
   try {
     const updatedCart = await CartsModel.findOneAndUpdate(

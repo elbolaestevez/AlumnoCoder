@@ -16,8 +16,14 @@ socket.on("INIT", (products) => {
 });
 const formularioDeProductos = document.getElementById("formProducts");
 formularioDeProductos.addEventListener("submit", (e) => {
-  const { title, price, stock, code, thumbnail, description } =
-    formularioDeProductos;
+  const {
+    title,
+    price,
+    stock,
+    code,
+    thumbnail,
+    description,
+  } = formularioDeProductos;
   socket.emit("POST_PRODUCT", {
     title: title.value,
     price: price.value,

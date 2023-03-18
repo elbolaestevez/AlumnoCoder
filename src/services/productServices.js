@@ -64,7 +64,7 @@ const createproduct = async (
       description: description,
     }).save();
     const products = await ProductModel.find();
-    console.log("products", products);
+    // console.log("products", products);
     return products;
   } catch (error) {
     console.log(error);

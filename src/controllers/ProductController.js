@@ -21,7 +21,7 @@ const getproducts = async (req, res) => {
       sort: sort ? { price: sort === "asc" ? 1 : -1 } : {},
     };
     const products = await productservices.getproducts(opciones, filters);
-    console.log("products", products);
+    // console.log("products", products);
     res.send(products);
   } catch (error) {
     console.log(error);
@@ -55,7 +55,7 @@ const deleteproductById = async (req, res) => {
 const createproduct = async (req, res) => {
   try {
     const { title, stock, price, code, thumbnail, description } = req.body;
-    console.log("reqbody", req.body);
+    // console.log("reqbody", req.body);
     const products = await productservices.createproduct(
       title,
       stock,

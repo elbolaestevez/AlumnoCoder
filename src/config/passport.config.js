@@ -47,11 +47,8 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile);
           let user = await userService.findOne({ email: profile._json.email });
           if (!user) {
-            console.log("PROFILE GIT:", profile._json);
-
             let newUser = {
               first_name: profile._json.name,
               last_name: "",
@@ -79,7 +76,6 @@ const initializePassport = () => {
       async (username, password, done) => {
         try {
           const user = await userService.findOne({ email: username });
-          //   console.log("USERNAME DEL PASSSPORT.CONFIG:", user);
           if (!user) {
             console.log("Usuario no existe");
             return done(null, false);

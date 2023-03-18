@@ -27,6 +27,7 @@ let chatBox = document.getElementById("chatBox");
 //     })
 //   );
 ///;
+
 chatBox.addEventListener("keyup", (evt) => {
   if (evt.key === "Enter") {
     if (chatBox.value.trim().length > 0) {
@@ -65,6 +66,65 @@ socket.on("newUser", (user) => {
     position: "top-right",
   });
 });
+
+//-----------------------------------------------------------------------------------------
+
+// LOGICA AGREGAR AL CARRITO:
+
+// const botones = document.getElementsByClassName("agregarCarrito");
+// console.log(botones);
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   setTimeout(() => {
+//     const botones = document.getElementsByClassName("agregarCarrito");
+//     console.log(botones[0]);
+//   }, 1000); // wait 1 second before executing the code
+// });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   // console.log(botones[0]);
+//   [...botones].forEach((button) => {
+//     console.log("AFDSAA");
+
+//     button.addEventListener("click", () => {
+//       console.log("HOLAA");
+//     });
+//   });
+// });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   let agregarCarrito = document.getElementsByClassName("agregarCarrito");
+//   console.log(agregarCarrito);
+
+//   setTimeout(() => {
+//     agregarCarrito.forEach((button) => {
+//       button.addEventListener("click", (event) => {
+//         const productId = event.target.getAttribute("data-id");
+//         console.log("ID DEL PRODUCTO>>>", productId);
+//       });
+//     });
+//   }, 1000);
+// });
+
+document.addEventListener("DOMContentLoaded", () => {
+  let agregarCarrito = document.getElementsByClassName("agregarCarrito");
+
+  setTimeout(() => {
+    let botones = [...agregarCarrito]; // Convert HTMLCollection to array
+    console.log(botones);
+  }, 1000).then((botones) => {
+    botones.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        console.log("HOLA");
+
+        // const productId = event.target.getAttribute("data-id");
+        // console.log("ID DEL PRODUCTO>>>", productId);
+      });
+    });
+  });
+});
+
+//-----------------------------------------------------------------------------------------
 
 function obtenerProductos(pagina = 1) {
   fetch(`http://localhost:8080/api/products?page=${pagina}`)
@@ -164,7 +224,6 @@ verCarritoBtn.addEventListener("click", () => {
   CarritoData(carritoId);
 });
 function CarritoData(carritoid) {
-  console.log("carritoid", carritoid);
   fetch(`http://localhost:8080/api/carts/${carritoid}`)
     .then((response) => response.json())
     .then((data) => {
@@ -174,7 +233,6 @@ function CarritoData(carritoid) {
         price: product.idproducto.price,
         quantity: product.quantity,
       }));
-      console.log("productList", productList);
 
       // aquí puedes hacer algo con la lista de productos, como mostrarlos en una tabla o en el div con ID "carrito"
       const cartElement = document.getElementById("carrito");
