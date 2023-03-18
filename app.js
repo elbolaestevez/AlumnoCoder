@@ -1,11 +1,11 @@
-const ProductManager = require("./productManager");
+const ProductManager = require("./src/productManager");
 const session = require("express-session");
 const chatRouter = require("./src/router/msgRoutes");
 const mongoose = require("mongoose");
 const productos = new ProductManager("./src/db/productos.json");
 const messagesList = [];
 const bodyParser = require("body-parser");
-const events = require("./socketEvents");
+const events = require("./src/socketEvents");
 const { Server } = require("socket.io");
 const express = require("express");
 const authRouter = require("./src/router/auth");
