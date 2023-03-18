@@ -22,59 +22,64 @@
       <h1>{{role}}</h1>
     </div>
     <p>Bienvenido, {{userName}}!</p>
-    {{else}}
+
+    <h2>registre su producto</h2>
+    <form id="formProducts">
+      <div>
+        <label for="">ingrese el nombre de su producto</label>
+        <input type="text" name="title" />
+      </div>
+      <div>
+        <label for="">ingrese el precio de su producto</label>
+        <input type="text" name="price" />
+      </div>
+      <div>
+        <label for="">ingrese el stock del producto</label>
+        <input type="number" name="stock" />
+      </div>
+      <div>
+        <label for="">ingrese la url a la imagen de su producto</label>
+        <input type="text" name="thumbnail" />
+      </div>
+      <div>
+        <label for="">ingrese el code de su producto</label>
+        <input type="text" name="code" />
+      </div>
+      <div>
+        <label for="">ingrese la descripcion de su producto</label>
+        <textarea name="description" id="" cols="30" rows="10"></textarea>
+      </div>
+      <input type="submit" value="enviar" />
+    </form>
+  </section>
+
+  <div id="updateProducts">
+
+  </div>
+
+  <div id="contenedorProductos">
+
+  </div>
+  <h1>Chat Coderhouse</h1>
+  <div>
+    <input id="chatBox" />
+  </div>
+  <div>
+    <p id="messageLogs"></p>
+  </div>
+
+  <input id="carritoId" type="text" placeholder="ID del carrito" />
+  <button id="verCarrito" type="button">Ver Carrito</button>
+  <div id="carrito" class="cart-button"></div>
+
+
+  {{else}}
+    <h1>Bienvenido a mi e-commerce!</h1>
+    
     <button id="login" type="button" onclick="location.href='/auth/login'">Log in</button>
      <button id="login" type="button" onclick="location.href='/auth/register'">Registrarse</button>
   {{/if}}
 
-  <h2>registre su producto</h2>
-  <form id="formProducts">
-    <div>
-      <label for="">ingrese el nombre de su producto</label>
-      <input type="text" name="title" />
-    </div>
-    <div>
-      <label for="">ingrese el precio de su producto</label>
-      <input type="text" name="price" />
-    </div>
-    <div>
-      <label for="">ingrese el stock del producto</label>
-      <input type="number" name="stock" />
-    </div>
-    <div>
-      <label for="">ingrese la url a la imagen de su producto</label>
-      <input type="text" name="thumbnail" />
-    </div>
-    <div>
-      <label for="">ingrese el code de su producto</label>
-      <input type="text" name="code" />
-    </div>
-    <div>
-      <label for="">ingrese la descripcion de su producto</label>
-      <textarea name="description" id="" cols="30" rows="10"></textarea>
-    </div>
-    <input type="submit" value="enviar" />
-  </form>
-</section>
-
-<div id="updateProducts">
-
-</div>
-
-<div id="contenedorProductos">
-
-</div>
-<h1>Chat Coderhouse</h1>
-<div>
-  <input id="chatBox" />
-</div>
-<div>
-  <p id="messageLogs"></p>
-</div>
-
-<input id="carritoId" type="text" placeholder="ID del carrito" />
-<button id="verCarrito" type="button">Ver Carrito</button>
-<div id="carrito" class="cart-button"></div>
 
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
